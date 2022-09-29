@@ -18,7 +18,7 @@ import javax.swing.JTextArea;
 
 public class MainTest {
 
-	int sum=0;
+	int sum=0;	//총 합계 계산할 변수
 	
 	//멤버변수 생성
 	JFrame f;
@@ -34,6 +34,7 @@ public class MainTest {
 	
 	ArrayList <PayVO> list = new ArrayList<PayVO>();			//선택한 메뉴 정보 넘길 VO 생성
 	//원하는 자료가 <PayVO>라서 <PayVO>로 generic함
+	
 	MainTest(){
 		//객체 생성
 		f = new JFrame("kosmo 휴게소");							//창 제목 설정
@@ -46,10 +47,10 @@ public class MainTest {
 		
 		//주문내역 부분
 		taMenu = new JTextArea();
-		taMenu.setFont(new Font(null, Font.BOLD, 15));	// TextArea 글씨체 , 크기 수정
+		taMenu.setFont(new Font(null, Font.BOLD, 15));	// 주문부분 TextArea 글씨체 , 크기 수정
 		
 		taPrice = new JTextArea();
-		taPrice.setFont(new Font(null, Font.BOLD, 15));
+		taPrice.setFont(new Font(null, Font.BOLD, 15));	// 가격부분 TextArea 글씨체 , 크기 수정
 		
 		//총 합계 부분
 		total = new JLabel("TOTAL : ");					//라벨이름 "TOTAL :" 로 설정 
@@ -69,9 +70,12 @@ public class MainTest {
 		panelC = new Panel_Chi(this);	//중식
 		panelI = new PanelI(this);		//양식
 		panelJ = new KioskA(this);		//일식
-	}
+	}//end of MainTest
 	
-	
+	/* 함수명 : addLayout
+	 * 인자 : 없음
+	 * 리턴값 : void
+	 * 역할 : 화면에 구성하고 출력할 메소드 생성 */
 	//Main Layout
 	void addLayout() {
 		f.setLayout(new BorderLayout());	
@@ -118,7 +122,7 @@ public class MainTest {
 
 		//화면 출력
 		f.setBounds(100, 100, 1300, 850);						//화면 크기 설정
-		f.setResizable(false);									//프레임 화면 변화 유동적이지 않게 설정...?
+		f.setResizable(false);									//프레임 화면 불변
 		f.setVisible(true);										//화면 나올 수 있도록 설정
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		//나가면 콘솔창 종료 설정
 	}//end of addLayout

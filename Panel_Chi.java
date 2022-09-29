@@ -1,4 +1,4 @@
-package project;
+package kiosk_project;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,21 +15,20 @@ public class Panel_Chi extends JPanel {
 
 	JPanel panel;
 	String chimenu[] = { "짜장면", "짬뽕", "굴짬뽕", "탕수육", "팔보채", "누룽지탕", "칠리새우", "꿔바로우", "멘보샤" };
-	JButton[] menu = new JButton[chimenu.length];
+	JButton[] menu = new JButton[chimenu.length];	 // menu 변수에 chimenu 해당 값 각 인덱스 방에 저장
 	String price[] = { "7000원", "9000원", "11000원", "17000원", "28000원", "32000원", "21000원", "18000원", "22000원" };
-	JButton[] pricebtn = new JButton[price.length];
-	String name;
+	JButton[] pricebtn = new JButton[price.length];	 // pricebtn 변수에 price 해당 값 각 인덱스 방에 저장
+	String name;	// menu + price 배열로 인덱스 0번방 값으로 합쳐져 프레임에 출력 될 수 있게하는 변수
 
 	MainTest parent; // null
 	int count;
-//	private String chinamenu;
 
 	
-	public Panel_Chi(MainTest project) {		// Panel_Chi 에 Project 주소값이 저장 되어있음
+	public Panel_Chi(MainTest project) {	// Panel_Chi 에 Project 주소값이 저장 되어있음
 		parent = project;
 		setBackground(Color.WHITE); 		// 각 메뉴 버튼 색상 white 지정
-		initial();							// 메소드 호출
-		eventProc();						// 메소드 호출
+		initial();							
+		eventProc();						
 		
 	}//end of Panel_Chi
 
@@ -40,9 +39,9 @@ public class Panel_Chi extends JPanel {
 
 	public void initial() {
 
-		ImageIcon image[] = new ImageIcon[9];
-
-		image[0] = new ImageIcon("src\\project\\button_image\\1.jpg"); // for문으로 이미지 배열
+		ImageIcon image[] = new ImageIcon[9];	
+		// image 9개의 배열 방에 값 직접 대입
+		image[0] = new ImageIcon("src\\project\\button_image\\1.jpg");
 		image[1] = new ImageIcon("src\\project\\button_image\\2.jpg");
 		image[2] = new ImageIcon("src\\project\\button_image\\3.jpg");
 		image[3] = new ImageIcon("src\\project\\button_image\\4.jpg");
@@ -53,15 +52,15 @@ public class Panel_Chi extends JPanel {
 		image[8] = new ImageIcon("src\\project\\button_image\\9.jpg");
 
 		setLayout(new GridLayout(3, 3));
-		for (int i = 0; i < 9; i++) { // fmenu 판넬 (3열 3행 지정)
-	name = chimenu[i] + "/" + price[i];	// 메뉴명 + 가격 name 변수에 저장
+		for (int i = 0; i < 9; i++) { 							// fmenu 판넬 (3열 3행 지정)
+	name = chimenu[i] + "/" + price[i];							// 메뉴명 + 가격 name 변수에 저장
 			
-			menu[i] = new JButton(name, image[i]); // 이미지 + 메뉴 이름 = menu[i]
+			menu[i] = new JButton(name, image[i]); 				// 이미지 + 메뉴 이름 = menu[i]
 			menu[i].setHorizontalTextPosition(JButton.CENTER);	// 가운데 정렬
 			menu[i].setVerticalTextPosition(JButton.BOTTOM);	// 메뉴명 & 가격 하단 지정
 			menu[i].setFont(new Font(null, Font.BOLD, 15));		// 메뉴명 & 가격 폰트/폰트 크기 지정
-			menu[i].setBackground(Color.white);	// 버튼 컬러 지정
-			add(menu[i]);		// 판넬에 버튼추가
+			menu[i].setBackground(Color.white);					// 버튼 컬러 지정
+			add(menu[i]);										// 판넬에 버튼추가
 		}//for
 
 	}//end of initial()
@@ -79,14 +78,13 @@ public class Panel_Chi extends JPanel {
 		// 메뉴명 클릭시 메뉴탭에 출력되는 이벤트
 		for (int i = 0; i < menu.length; i++) { // 배열로 선언했기 때문에 반드시 for문
 			menu[i].addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+				public void actionPerformed(ActionEvent e) {		// ==> ActionEvent menu[i] 라는 JButton 객체(발생한 이벤트)를 받음 
 					// 이벤트가 발생한 컴포넌트의 참조를 얻어옴
 					// num[0] = 메뉴명
 					// num[1] = 가격
-					JButton menubtn = (JButton) e.getSource(); // getSource
-					String[] num = menubtn.getText().split("/");
+					JButton menubtn = (JButton) e.getSource(); 		// ==> getSource를 통해 형변환하여 menubtn에 대입
+					String[] num = menubtn.getText().split("/");	// ==> 대입 된 값을 구분자 "/" 로 나눠 num 문자열 배열에 저장
 					
-					System.out.println(num[0] + "/" + num[1]);
 					inputData(num);
 					clearTA();				
 					showUp();
@@ -156,4 +154,3 @@ public class Panel_Chi extends JPanel {
 			}
 		}//calSum
 }
-
