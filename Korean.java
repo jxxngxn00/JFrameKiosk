@@ -2,10 +2,7 @@ package project;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import javax.swing.*;
-
-import b_info.PersonVO;
 
 public class Korean extends JPanel{
 	
@@ -48,6 +45,10 @@ public class Korean extends JPanel{
 
 	}//end of Korean
 	
+	/* 함수명 : addLayout
+	 * 인자 : 없음
+	 * 리턴값 : void
+	 * 역할 : 화면에 구성하고 출력할 메소드 생성 */
 	void addLayout() {
 		setLayout(new GridLayout(3, 3));	// 3행 3열 그리드
 		
@@ -59,6 +60,11 @@ public class Korean extends JPanel{
 		
 	}//addLayout()
 	
+/* 함수명 : eventProc
+ * 인자 : 없음
+ * 리턴값 : void
+ * 역할 : 이벤트발생 메소드 생성 */
+
 	 void eventProc() {
 	 	
 		 //메뉴 버튼을 눌렀을 때
@@ -67,12 +73,10 @@ public class Korean extends JPanel{
 	 			public void actionPerformed(ActionEvent e) {
 	 				// 이벤트가 발생한 컴포넌트의 참조를 얻어옴.
 	 				JButton eBtn = (JButton)e.getSource();
-	 				String[] strArr = eBtn.getText().split(" / ");
-	 				System.out.println(strArr[0] + "/////" + strArr[1]);
+	 				String[] strArr = eBtn.getText().split(" / "); //받아온 값을 " / " 기준으로 나눠서 배열하기
 	 				inputData(strArr); //VO에 입력값 넘김
-	 				
-	 				clearTA();			
-	 				showUp();			//텍스트 에어리어에 주문 내용 출력
+	 				clearTA();			//Text Area를 초기화
+	 				showUp();			//Text Area에 입력했던 내용 총출력
 				}//end of actionPerformed
 			});//end of addActionListener
 	 	}//for
@@ -80,21 +84,27 @@ public class Korean extends JPanel{
 	 	//전체취소 버튼을 눌렀을 때
 	 	parent.cancel.addActionListener(new ActionListener(){
 	 		public void actionPerformed(ActionEvent e) {
-	 			parent.list.clear();
-	 			clearTA();
+	 			parent.list.clear();	// VO list 초기화
+	 			clearTA();				// Text Area 초기화
 	 		}//end of actionPerformed
 	 	});//end of addActionListener
 	 	
 	 }//eventProc
 	
-	//버튼에 들어갈 아이콘 이미지 크기 변환 메소드
+	 /* 함수명 : imageResize
+	  * 인자 : ImageIcon icon, int x (가로), int y (세로)
+	  * 리턴값 : Image 
+	  * 역할 : 버튼에 들어갈 아이콘 이미지 크기 변환 메소드 */
 	Image imageResize(ImageIcon icon, int x, int y){
 		Image image = icon.getImage();//아이콘에서 이미지를 불러옴
 		Image resizeImage = image.getScaledInstance(x,y,java.awt.Image.SCALE_SMOOTH); //이미지 화질을 최대한 보존하면서 크기 조정
 		return resizeImage;//크기 조정된 이미지 반환
 	}//imageResize
 	
-	//PayVO에 데이터 입력 메소드
+	/* 함수명 :inputData
+	 * 인자 : String[] strArr
+	 * 리턴값 : void
+	 * 역할 : 클릭한 값을 PayVO에 저장하기 */
 	public void inputData(String[] strArr) {
 		PayVO p = new PayVO();	
 		p.setMenu(strArr[0]);			//메뉴 이름 저장
@@ -103,7 +113,10 @@ public class Korean extends JPanel{
 		parent.list.add(p);				//PayVO에 입력내용 저장
 	}//inputData
 	
-	//TextArea 초기화 메소드
+	/* 함수명 : clearTA
+	 * 인자 : 없음
+	 * 리턴값 : void
+	 * 역할 : 각 TextArea의 내용을 비움 */
 	public void clearTA() {
 		//각 TextArea의 내용을 비움
 		parent.taMenu.setText(null);
@@ -115,7 +128,10 @@ public class Korean extends JPanel{
 		parent.sumPrice.setText(String.valueOf(parent.sum)+"원");
 	}//clearTA
 	
-	//주문내역 출력 메소드
+	/* 함수명 : showUp
+	 * 인자 : 없음
+	 * 리턴값 : void
+	 * 역할 : 주문내역 출력 */
 	public void showUp() {
 		String input = null;
 		for(PayVO vo : parent.list) {
@@ -133,7 +149,10 @@ public class Korean extends JPanel{
 	}//showUp
 
 	
-	//총합계 계산 메소드
+	/* 함수명 : calSum
+	 * 인자 : String price
+	 * 리턴값 : void
+	 * 역할 : 총합계 계산 메소드 */
 	void calSum(String price) {
 		int index = price.indexOf("원");
 		// 가격 String배열의 숫자만 계산하여 sum에 저장
