@@ -21,10 +21,8 @@ public class Korean extends JPanel{
 	String[] price = {"7000원","7000원","7000원","7000원","8000원","7500원",
 			"4000원","8000원","7000원"};						//메뉴 가격 배열
 
-	ArrayList <PayVO> list = new ArrayList<PayVO>();			//선택한 메뉴 정보 넘길 VO 생성
 	MainTest parent;
-	
-	int sum = 0;//최종 가격
+
 	
 	
 	public Korean(MainTest mainTest) {
@@ -38,7 +36,7 @@ public class Korean extends JPanel{
 			ImageIcon icon = new ImageIcon(imgSrc);					
 			Image resizeImage = imageResize(icon, 200, 200);	 // 이미지 크기 조절
 			kBtn[i] = new JButton(name, new ImageIcon(resizeImage));// 버튼에 메뉴와 아이콘 삽입
-			kBtn[i].setBackground(new Color(255,255,255));
+			kBtn[i].setBackground(new Color(255,255,255));		// 버튼 배경, 폰트 변경
 			kBtn[i].setFont(new Font(null,Font.BOLD, 15));
 			kBtn[i].setHorizontalTextPosition(JButton.CENTER);		// 수직으로 정렬
 			kBtn[i].setVerticalTextPosition(JButton.BOTTOM);		// 글씨를 아래쪽에 놓음
@@ -70,7 +68,9 @@ public class Korean extends JPanel{
 	 				// 이벤트가 발생한 컴포넌트의 참조를 얻어옴.
 	 				JButton eBtn = (JButton)e.getSource();
 	 				String[] strArr = eBtn.getText().split(" / ");
+	 				System.out.println(strArr[0] + "/////" + strArr[1]);
 	 				inputData(strArr); //VO에 입력값 넘김
+	 				
 	 				clearTA();			
 	 				showUp();			//텍스트 에어리어에 주문 내용 출력
 				}//end of actionPerformed
@@ -80,7 +80,7 @@ public class Korean extends JPanel{
 	 	//전체취소 버튼을 눌렀을 때
 	 	parent.cancel.addActionListener(new ActionListener(){
 	 		public void actionPerformed(ActionEvent e) {
-	 			list.clear();
+	 			parent.list.clear();
 	 			clearTA();
 	 		}//end of actionPerformed
 	 	});//end of addActionListener
@@ -92,50 +92,57 @@ public class Korean extends JPanel{
 		Image image = icon.getImage();//아이콘에서 이미지를 불러옴
 		Image resizeImage = image.getScaledInstance(x,y,java.awt.Image.SCALE_SMOOTH); //이미지 화질을 최대한 보존하면서 크기 조정
 		return resizeImage;//크기 조정된 이미지 반환
-	}
+	}//imageResize
 	
-	void inputData(String[] strArr) {
-		PayVO p = new PayVO();		//PayVO에 입력내용 저장
-		p.setMenu(strArr[0]);
-		p.setPrice(strArr[1]);
-		p.setCount(p.getCount()+1);
-
-		list.add(p);
+	//PayVO에 데이터 입력 메소드
+	public void inputData(String[] strArr) {
+		PayVO p = new PayVO();	
+		p.setMenu(strArr[0]);			//메뉴 이름 저장
+		p.setPrice(strArr[1]);			//금액 저장
+		
+		parent.list.add(p);				//PayVO에 입력내용 저장
 	}//inputData
 	
-	void clearTA() {
+	//TextArea 초기화 메소드
+	public void clearTA() {
 		//각 TextArea의 내용을 비움
 		parent.taMenu.setText(null);
 		parent.taPrice.setText(null);
 		
 		//최종 금액, 개수 초기화
-		sum = 0;
-		parent.sumCount.setText(String.valueOf(list.size())+"개");
-		parent.sumPrice.setText(String.valueOf(sum)+"원");
-	}
+		parent.sum = 0;
+		parent.sumCount.setText(String.valueOf(parent.list.size())+"개");
+		parent.sumPrice.setText(String.valueOf(parent.sum)+"원");
+	}//clearTA
 	
 	//주문내역 출력 메소드
-	void showUp() {
+	public void showUp() {
 		String input = null;
-		for(PayVO vo : list) {
+		for(PayVO vo : parent.list) {
 			input = vo.toString();
-			String[] arr = input.split("/");
-			parent.taMenu.append(arr[0]+"\n");	// 메뉴 텍스트필드에 추가
-			parent.taPrice.append(arr[2]+"\n");	// 가격 텍스트필드에 추가
+			String[] arr = input.split("/");			//"[메뉴명]/[금액]"을 [메뉴]와 [금액]으로 나눔
+			parent.taMenu.append(arr[0]+"\n");	// 메뉴 텍스트에어리어에 추가
+			parent.taPrice.append(arr[2]+"\n");	// 가격 텍스트에어리어에 추가
 			calSum(arr[2]);								// 최종 갯수/가격 설정
 			
 			//최종 갯수/가격 출력			
-			parent.sumCount.setText(String.valueOf(list.size())+"개");
-			parent.sumPrice.setText(String.valueOf(sum)+"원");
+			parent.sumCount.setText(String.valueOf(parent.list.size())+"개");
+			parent.sumPrice.setText(String.valueOf(parent.sum)+"원");
 
-		}
+		}//for
 	}//showUp
 
 	
 	//총합계 계산 메소드
 	void calSum(String price) {
 		int index = price.indexOf("원");
-		sum += Integer.parseInt(price.substring(0, index));	// 가격 String배열의 숫자만 계산하여 sum에 저장
+		// 가격 String배열의 숫자만 계산하여 sum에 저장
+		if(index ==-1)											//"원"이 없을 경우
+		{parent.sum += Integer.parseInt(price);	
+		return;
+		} else														//"원"이 있을 경우
+		{parent.sum += Integer.parseInt(price.substring(0, index));
+		}
 	}//calSum
 
 }//end of Korean
