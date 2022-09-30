@@ -11,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
@@ -62,8 +61,9 @@ public class MainTest {
 		cancel = new JButton("전체취소");
 		pay.setBackground(new Color(255,255,255));		//버튼 흰색으로 색깔 지정
 		cancel.setBackground(new Color(255,255,255));
-		pay.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));	//여백
-		cancel.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));	//여백
+		pay.setFont(new Font(null, Font.BOLD, 25));		//버튼 글씨 크기 조정
+		cancel.setFont(new Font(null, Font.BOLD, 25));
+		
 		
 		//Panel
 		panelK = new Korean(this); 		//한식			
